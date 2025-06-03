@@ -219,8 +219,8 @@ function App() {
                 <div className="relative">
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                     <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop&crop=face"
-                      alt="Jairo with Chuy"
+                      src="https://i.imgur.com/jairo-chuy-spacex.jpg"
+                      alt="Jairo with Chuy at SpaceX"
                       className="w-full h-auto object-cover"
                       style={{ minHeight: '400px' }}
                     />

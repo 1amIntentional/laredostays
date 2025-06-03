@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, Filter, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X } from 'lucide-react';
 
-// Mock property database
 const properties = [
   {
     id: 1,
@@ -11,15 +10,10 @@ const properties = [
     bedrooms: 2,
     bathrooms: 2,
     sqft: 1200,
-    images: [
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800",
-      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
-      "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?w=800"
-    ],
+    images: ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800"],
     amenities: ["Full Kitchen", "Designer Bathroom", "High-Speed WiFi", "Parking", "Smart TV"],
     description: "Luxury downtown apartment with modern finishes, perfect for business travelers and extended stays.",
-    featured: true,
-    tier: "premium"
+    featured: true
   },
   {
     id: 2,
@@ -29,27 +23,18 @@ const properties = [
     bedrooms: 2,
     bathrooms: 1,
     sqft: 1000,
-    images: [
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800"
-    ],
+    images: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"],
     amenities: ["Full Kitchen", "Bathroom", "WiFi", "Parking", "Garden"],
     description: "Comfortable suburban home ideal for families and longer stays, with peaceful surroundings.",
-    featured: false,
-    tier: "standard"
+    featured: false
   }
 ];
 
-const App = () => {
+function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [filteredProperties, setFilteredProperties] = useState(properties);
 
-  const PropertyCard = ({ property, onClick }) => (
-    <div 
-      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
-      onClick={onClick}
-    >
+  const PropertyCard = ({ property }) => (
+    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
       <div className="relative h-48 overflow-hidden">
         <img 
           src={property.images[0]} 
@@ -95,7 +80,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
       <nav className="bg-white shadow-sm sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -132,10 +116,8 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Home Page */}
       {currentPage === 'home' && (
         <div>
-          {/* Hero Section */}
           <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600"></div>
             <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -167,7 +149,6 @@ const App = () => {
             </div>
           </div>
 
-          {/* Comparison Section */}
           <div className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4">
               <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
@@ -177,68 +158,88 @@ const App = () => {
                 <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-3xl border-l-4 border-red-500">
                   <h3 className="text-2xl font-bold mb-6 text-red-700">Extended Stay Hotels</h3>
                   <ul className="space-y-4">
-                    {[
-                      '$150-200+ per night',
-                      'Small, cramped rooms',
-                      'Basic kitchenette',
-                      'No real home comfort',
-                      'Limited space & storage'
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-center text-gray-700">
-                        <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
+                    <li className="flex items-center text-gray-700">
+                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                      $150-200+ per night
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                      Small, cramped rooms
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                      Basic kitchenette
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                      No real home comfort
+                    </li>
                   </ul>
                 </div>
 
                 <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-3xl border-l-4 border-green-500">
                   <h3 className="text-2xl font-bold mb-6 text-green-700">Our Luxury Rentals</h3>
                   <ul className="space-y-4">
-                    {[
-                      '$400-800 per week',
-                      'Spacious 2-bedroom homes',
-                      'Full gourmet kitchen',
-                      'True home away from home',
-                      'Plenty of space & comfort'
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-center text-gray-700">
-                        <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        </div>
-                        {item}
-                      </li>
-                    ))}
+                    <li className="flex items-center text-gray-700">
+                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      $400-800 per week
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      Spacious 2-bedroom homes
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      Full gourmet kitchen
+                    </li>
+                    <li className="flex items-center text-gray-700">
+                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                      True home away from home
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Features Section */}
           <div className="py-20 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4">
               <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
                 What You Get With Our Rentals
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {[
-                  { icon: '🏠', title: '2 Full Bedrooms', desc: 'Spacious bedrooms with comfortable beds and plenty of storage space' },
-                  { icon: '👨‍🍳', title: 'Full Kitchen', desc: 'Complete kitchen with all appliances, cookware, and dining essentials' },
-                  { icon: '🛁', title: 'Designer Bathrooms', desc: 'Beautiful, modern bathrooms with premium fixtures and amenities' },
-                  { icon: '💰', title: 'Save Money', desc: 'Up to 60% savings compared to extended stay hotels' }
-                ].map((feature, i) => (
-                  <div key={i} className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
-                    <div className="text-4xl mb-4">{feature.icon}</div>
-                    <h3 className="text-xl font-semibold mb-3 text-gray-800">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.desc}</p>
-                  </div>
-                ))}
+                <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="text-4xl mb-4">🏠</div>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-800">2 Full Bedrooms</h3>
+                  <p className="text-gray-600">Spacious bedrooms with comfortable beds and plenty of storage space</p>
+                </div>
+                <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="text-4xl mb-4">👨‍🍳</div>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Full Kitchen</h3>
+                  <p className="text-gray-600">Complete kitchen with all appliances, cookware, and dining essentials</p>
+                </div>
+                <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="text-4xl mb-4">🛁</div>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Designer Bathrooms</h3>
+                  <p className="text-gray-600">Beautiful, modern bathrooms with premium fixtures and amenities</p>
+                </div>
+                <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="text-4xl mb-4">💰</div>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Save Money</h3>
+                  <p className="text-gray-600">Up to 60% savings compared to extended stay hotels</p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Pricing Section */}
           <div className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
             <div className="max-w-4xl mx-auto px-4 text-center">
               <h2 className="text-4xl font-bold mb-8">Unbeatable Weekly Rates</h2>
@@ -256,28 +257,19 @@ const App = () => {
         </div>
       )}
 
-      {/* Gallery Page */}
       {currentPage === 'gallery' && (
         <div className="py-8">
           <div className="max-w-7xl mx-auto px-4">
             <h1 className="text-3xl font-bold mb-8">Available Properties</h1>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProperties.map(property => (
-                <PropertyCard 
-                  key={property.id}
-                  property={property}
-                  onClick={() => {
-                    setSelectedProperty(property);
-                    setCurrentPage('property');
-                  }}
-                />
+              {properties.map(property => (
+                <PropertyCard key={property.id} property={property} />
               ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Contact Page */}
       {currentPage === 'contact' && (
         <div className="py-16">
           <div className="max-w-4xl mx-auto px-4">
@@ -344,6 +336,6 @@ const App = () => {
       )}
     </div>
   );
-};
+}
 
 export default App;

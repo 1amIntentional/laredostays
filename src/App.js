@@ -219,7 +219,7 @@ function App() {
                 <div className="relative">
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                     <img 
-                      src="https://github.com/1amIntentional/laredostays/blob/main/public/jairo-chuy-spacex.JPG"
+                      src="/jairo-chuy-spacex.jpg"
                       alt="Jairo with Chuy at SpaceX"
                       className="w-full h-auto object-cover"
                       style={{ minHeight: '400px' }}

@@ -1,41 +1,21 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X, Menu } from 'lucide-react';
-
-const properties = [
-  {
-    id: 1,
-    title: "Modern Downtown Apartment",
-    location: "Downtown District",
-    price: { min: 600, max: 800 },
-    bedrooms: 2,
-    bathrooms: 2,
-    sqft: 1200,
-    images: ["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800"],
-    amenities: ["Full Kitchen", "Designer Bathroom", "High-Speed WiFi", "Parking", "Smart TV"],
-    description: "Luxury downtown apartment with modern finishes, perfect for business travelers and extended stays.",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Cozy Suburban Home",
-    location: "Quiet Neighborhood", 
-    price: { min: 400, max: 600 },
-    bedrooms: 2,
-    bathrooms: 1,
-    sqft: 1000,
-    images: ["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800"],
-    amenities: ["Full Kitchen", "Bathroom", "WiFi", "Parking", "Garden"],
-    description: "Comfortable suburban home ideal for families and longer stays, with peaceful surroundings.",
-    featured: false
-  }
-];
+import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X, Menu, Users } from 'lucide-react';
+import { properties } from './data/properties';
+import PropertyDetail from './components/PropertyDetail';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedProperty, setSelectedProperty] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const PropertyCard = ({ property }) => (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+    <div 
+      className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+      onClick={() => {
+        setSelectedProperty(property);
+        setCurrentPage('property');
+      }}
+    >
       <div className="relative h-48 overflow-hidden">
         <img 
           src={property.images[0]} 
@@ -48,7 +28,7 @@ function App() {
           </div>
         )}
         <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
-          ${property.price.min}-${property.price.max}/week
+          ${property.weeklyRate || property.price.max}/week
         </div>
       </div>
       <div className="p-6">
@@ -66,7 +46,10 @@ function App() {
             <Bath className="w-4 h-4 mr-1" />
             {property.bathrooms} bath
           </span>
-          <span>{property.sqft} sqft</span>
+          <span className="flex items-center">
+            <Users className="w-4 h-4 mr-1" />
+            {property.occupancy} guests
+          </span>
         </div>
         <div className="flex flex-wrap gap-1">
           {property.amenities.slice(0, 3).map((amenity, i) => (
@@ -74,6 +57,9 @@ function App() {
               {amenity}
             </span>
           ))}
+          {property.amenities.length > 3 && (
+            <span className="text-gray-500 text-xs">+{property.amenities.length - 3} more</span>
+          )}
         </div>
       </div>
     </div>
@@ -102,6 +88,17 @@ function App() {
       {label}
     </button>
   );
+
+  // Show PropertyDetail if property is selected
+  if (currentPage === 'property' && selectedProperty) {
+    return (
+      <PropertyDetail 
+        property={selectedProperty}
+        onBack={() => setCurrentPage('gallery')}
+        onContact={() => setCurrentPage('contact')}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -220,7 +217,7 @@ function App() {
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                     <img 
                       src="https://i.imgur.com/GtyfKfL.jpeg"
-                      alt="Jairo with Chuy at SpaceX"
+                      alt="Jairo with Chuy"
                       className="w-full h-auto object-cover"
                       style={{ minHeight: '400px' }}
                     />
@@ -298,12 +295,6 @@ function App() {
                 <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-3xl border-l-4 border-green-500">
                   <h3 className="text-xl sm:text-2xl font-bold mb-6 text-green-700">Our Luxury Rentals</h3>
                   <ul className="space-y-4">
-                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
-                      </div>
-                      $400-800 per week
-                    </li>
                     <li className="flex items-center text-gray-700 text-sm sm:text-base">
                       <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
                         <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>

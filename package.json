@@ -1,10 +1,11 @@
 {
-  "name": "laredostays",
-  "version": "1.0.0",
+  "name": "laredo-stays",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
     "lucide-react": "^0.263.1"
   },
   "scripts": {
@@ -12,12 +13,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "lucide-react": "^0.263.1",
-    "react-scripts": "5.0.1"
   },
   "browserslist": {
     "production": [

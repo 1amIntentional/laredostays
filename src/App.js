@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, Car, Wifi, Utensils, Tv, Star, Filter, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, Filter, X } from 'lucide-react';
 
 // Mock property database
 const properties = [
@@ -31,47 +31,10 @@ const properties = [
     sqft: 1000,
     images: [
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800",
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800",
-      "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800"
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800"
     ],
     amenities: ["Full Kitchen", "Bathroom", "WiFi", "Parking", "Garden"],
     description: "Comfortable suburban home ideal for families and longer stays, with peaceful surroundings.",
-    featured: false,
-    tier: "standard"
-  },
-  {
-    id: 3,
-    title: "Executive Loft",
-    location: "Business District",
-    price: { min: 700, max: 900 },
-    bedrooms: 2,
-    bathrooms: 2,
-    sqft: 1400,
-    images: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
-      "https://images.unsplash.com/photo-1540518614846-7eded6dcf9bc?w=800",
-      "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?w=800"
-    ],
-    amenities: ["Gourmet Kitchen", "Luxury Bathroom", "High-Speed WiFi", "Parking", "Concierge"],
-    description: "High-end executive loft with premium amenities for discerning business professionals.",
-    featured: true,
-    tier: "luxury"
-  },
-  {
-    id: 4,
-    title: "Charming Historic Unit",
-    location: "Arts District",
-    price: { min: 500, max: 700 },
-    bedrooms: 2,
-    bathrooms: 1,
-    sqft: 950,
-    images: [
-      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800",
-      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800",
-      "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?w=800"
-    ],
-    amenities: ["Full Kitchen", "Historic Charm", "WiFi", "Street Parking", "Character"],
-    description: "Beautiful historic property with original details and modern conveniences.",
     featured: false,
     tier: "standard"
   }
@@ -81,32 +44,6 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [filteredProperties, setFilteredProperties] = useState(properties);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    priceRange: 'all',
-    bedrooms: 'all',
-    tier: 'all'
-  });
-
-  // Filter properties based on current filters
-  useEffect(() => {
-    let filtered = properties;
-    
-    if (filters.priceRange !== 'all') {
-      const [min, max] = filters.priceRange.split('-').map(Number);
-      filtered = filtered.filter(p => p.price.min >= min && p.price.max <= max);
-    }
-    
-    if (filters.bedrooms !== 'all') {
-      filtered = filtered.filter(p => p.bedrooms === parseInt(filters.bedrooms));
-    }
-    
-    if (filters.tier !== 'all') {
-      filtered = filtered.filter(p => p.tier === filters.tier);
-    }
-    
-    setFilteredProperties(filtered);
-  }, [filters]);
 
   const PropertyCard = ({ property, onClick }) => (
     <div 
@@ -151,142 +88,10 @@ const App = () => {
               {amenity}
             </span>
           ))}
-          {property.amenities.length > 3 && (
-            <span className="text-gray-500 text-xs">+{property.amenities.length - 3} more</span>
-          )}
         </div>
       </div>
     </div>
   );
-
-  const PropertyDetail = ({ property }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white shadow-sm sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <button 
-              onClick={() => setCurrentPage('gallery')}
-              className="flex items-center text-blue-600 hover:text-blue-800"
-            >
-              <ChevronLeft className="w-5 h-5 mr-1" />
-              Back to Gallery
-            </button>
-            <button 
-              onClick={() => setCurrentPage('contact')}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Contact Us
-            </button>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <div className="relative h-96 rounded-2xl overflow-hidden mb-4">
-                <img 
-                  src={property.images[currentImageIndex]}
-                  alt={property.title}
-                  className="w-full h-full object-cover"
-                />
-                <button 
-                  onClick={() => setCurrentImageIndex((prev) => 
-                    prev === 0 ? property.images.length - 1 : prev - 1
-                  )}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button 
-                  onClick={() => setCurrentImageIndex((prev) => 
-                    (prev + 1) % property.images.length
-                  )}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-              <div className="flex gap-2">
-                {property.images.map((image, i) => (
-                  <img 
-                    key={i}
-                    src={image}
-                    alt={`${property.title} ${i + 1}`}
-                    className={`w-20 h-20 object-cover rounded-lg cursor-pointer ${
-                      i === currentImageIndex ? 'ring-2 ring-blue-500' : ''
-                    }`}
-                    onClick={() => setCurrentImageIndex(i)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h1 className="text-3xl font-bold mb-4">{property.title}</h1>
-              <p className="text-xl text-gray-600 mb-4 flex items-center">
-                <MapPin className="w-5 h-5 mr-2" />
-                {property.location}
-              </p>
-              
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-2xl mb-6">
-                <div className="text-3xl font-bold text-blue-600 mb-2">
-                  ${property.price.min} - ${property.price.max}
-                </div>
-                <div className="text-gray-600">per week</div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <Bed className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-                  <div className="font-semibold">{property.bedrooms}</div>
-                  <div className="text-sm text-gray-500">Bedrooms</div>
-                </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <Bath className="w-6 h-6 mx-auto mb-2 text-blue-600" />
-                  <div className="font-semibold">{property.bathrooms}</div>
-                  <div className="text-sm text-gray-500">Bathrooms</div>
-                </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="font-semibold">{property.sqft}</div>
-                  <div className="text-sm text-gray-500">Sq Ft</div>
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-3">Description</h3>
-                <p className="text-gray-600 leading-relaxed">{property.description}</p>
-              </div>
-
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-3">Amenities</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {property.amenities.map((amenity, i) => (
-                    <div key={i} className="flex items-center">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                      {amenity}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <button 
-                onClick={() => setCurrentPage('contact')}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-2xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all"
-              >
-                Book This Property
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  if (currentPage === 'property' && selectedProperty) {
-    return <PropertyDetail property={selectedProperty} />;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -334,10 +139,6 @@ const App = () => {
           <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600"></div>
             <div className="absolute inset-0 bg-black opacity-40"></div>
-            <div className="absolute inset-0">
-              <div className="absolute top-10 left-10 w-72 h-72 bg-white opacity-10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-10 right-10 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl"></div>
-            </div>
             
             <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
               <h1 className="text-6xl font-bold mb-6 leading-tight">
@@ -381,9 +182,7 @@ const App = () => {
                       'Small, cramped rooms',
                       'Basic kitchenette',
                       'No real home comfort',
-                      'Limited space & storage',
-                      'Noisy hallways & neighbors',
-                      'No personalized service'
+                      'Limited space & storage'
                     ].map((item, i) => (
                       <li key={i} className="flex items-center text-gray-700">
                         <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
@@ -401,9 +200,7 @@ const App = () => {
                       'Spacious 2-bedroom homes',
                       'Full gourmet kitchen',
                       'True home away from home',
-                      'Plenty of space & comfort',
-                      'Quiet, private living',
-                      'Personalized attention'
+                      'Plenty of space & comfort'
                     ].map((item, i) => (
                       <li key={i} className="flex items-center text-gray-700">
                         <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
@@ -463,62 +260,7 @@ const App = () => {
       {currentPage === 'gallery' && (
         <div className="py-8">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-3xl font-bold">Available Properties</h1>
-              <button 
-                onClick={() => setFilterOpen(!filterOpen)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-              >
-                <Filter className="w-4 h-4" />
-                Filters
-              </button>
-            </div>
-
-            {/* Filters */}
-            {filterOpen && (
-              <div className="bg-white p-6 rounded-2xl shadow-lg mb-8">
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Price Range</label>
-                    <select 
-                      className="w-full p-2 border border-gray-300 rounded-lg"
-                      value={filters.priceRange}
-                      onChange={(e) => setFilters({...filters, priceRange: e.target.value})}
-                    >
-                      <option value="all">All Prices</option>
-                      <option value="400-600">$400 - $600</option>
-                      <option value="600-800">$600 - $800</option>
-                      <option value="800-1000">$800+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Bedrooms</label>
-                    <select 
-                      className="w-full p-2 border border-gray-300 rounded-lg"
-                      value={filters.bedrooms}
-                      onChange={(e) => setFilters({...filters, bedrooms: e.target.value})}
-                    >
-                      <option value="all">Any</option>
-                      <option value="2">2 Bedrooms</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Property Type</label>
-                    <select 
-                      className="w-full p-2 border border-gray-300 rounded-lg"
-                      value={filters.tier}
-                      onChange={(e) => setFilters({...filters, tier: e.target.value})}
-                    >
-                      <option value="all">All Types</option>
-                      <option value="standard">Standard</option>
-                      <option value="premium">Premium</option>
-                      <option value="luxury">Luxury</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            )}
-
+            <h1 className="text-3xl font-bold mb-8">Available Properties</h1>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProperties.map(property => (
                 <PropertyCard 
@@ -531,18 +273,6 @@ const App = () => {
                 />
               ))}
             </div>
-
-            {filteredProperties.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-xl text-gray-500">No properties match your current filters.</p>
-                <button 
-                  onClick={() => setFilters({ priceRange: 'all', bedrooms: 'all', tier: 'all' })}
-                  className="mt-4 text-blue-600 hover:text-blue-800"
-                >
-                  Clear all filters
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -572,4 +302,48 @@ const App = () => {
                   <div className="flex items-center">
                     <Mail className="w-6 h-6 text-blue-600 mr-4" />
                     <div>
-                
+                      <div className="font-semibold">Email</div>
+                      <a href="mailto:bebaza.america@gmail.com" className="text-gray-600 hover:text-blue-600">
+                        bebaza.america@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h2 className="text-2xl font-semibold mb-6">Quick Contact</h2>
+                <div className="space-y-4">
+                  <input 
+                    type="text" 
+                    placeholder="Your Name"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <input 
+                    type="email" 
+                    placeholder="Your Email"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <textarea 
+                    placeholder="Tell us about your needs"
+                    rows={4}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button 
+                    type="button"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
+                    onClick={() => window.open('mailto:bebaza.america@gmail.com?subject=LaredoStays Inquiry')}
+                  >
+                    Send Message
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;

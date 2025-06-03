@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X, Menu } from 'lucide-react';
 
 const properties = [
   {
@@ -32,6 +32,7 @@ const properties = [
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const PropertyCard = ({ property }) => (
     <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
@@ -78,70 +79,105 @@ function App() {
     </div>
   );
 
+  const NavigationButton = ({ page, label, isMobile = false }) => (
+    <button 
+      onClick={() => {
+        setCurrentPage(page);
+        if (isMobile) setMobileMenuOpen(false);
+      }}
+      className={`${
+        isMobile 
+          ? 'w-full text-left px-6 py-4 text-lg font-medium border-b border-gray-100 last:border-b-0' 
+          : 'px-3 py-2 rounded-lg text-sm font-medium'
+      } transition-colors ${
+        currentPage === page 
+          ? isMobile 
+            ? 'bg-blue-50 text-blue-600 border-l-4 border-l-blue-600' 
+            : 'bg-blue-100 text-blue-600'
+          : isMobile
+            ? 'text-gray-700 hover:bg-gray-50'
+            : 'text-gray-600 hover:bg-gray-100'
+      }`}
+    >
+      {label}
+    </button>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
       <nav className="bg-white shadow-sm sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            {/* Logo */}
+            <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               LaredoStays
             </div>
-            <div className="flex gap-6">
-              <button 
-                onClick={() => setCurrentPage('home')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === 'home' ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-                }`}
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => setCurrentPage('gallery')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === 'gallery' ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-                }`}
-              >
-                Properties
-              </button>
-              <button 
-                onClick={() => setCurrentPage('contact')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
-                  currentPage === 'contact' ? 'bg-blue-100 text-blue-600' : 'hover:bg-gray-100'
-                }`}
-              >
-                Contact
-              </button>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex gap-2">
+              <NavigationButton page="home" label="Home" />
+              <NavigationButton page="gallery" label="Properties" />
+              <NavigationButton page="contact" label="Contact" />
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <Menu className="w-6 h-6 text-gray-600" />
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-30">
+            <div className="py-2">
+              <NavigationButton page="home" label="Home" isMobile />
+              <NavigationButton page="gallery" label="Properties" isMobile />
+              <NavigationButton page="contact" label="Contact" isMobile />
+            </div>
+          </div>
+        )}
       </nav>
+
+      {/* Overlay for mobile menu */}
+      {mobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-25 z-10"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
 
       {currentPage === 'home' && (
         <div>
+          {/* Hero Section - Mobile Optimized */}
           <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600"></div>
             <div className="absolute inset-0 bg-black opacity-40"></div>
             
             <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-              <h1 className="text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Stop Paying<br />
                 <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                   Hotel Prices
                 </span>
               </h1>
-              <p className="text-xl mb-8 opacity-90">
+              <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-3xl mx-auto">
                 Discover luxury extended stay rentals with full kitchens, designer bathrooms, and spacious 2-bedroom layouts
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md sm:max-w-none mx-auto">
                 <button 
                   onClick={() => setCurrentPage('gallery')}
-                  className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+                  className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105"
                 >
                   View Properties
                 </button>
                 <button 
                   onClick={() => setCurrentPage('contact')}
-                  className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all"
+                  className="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-blue-600 transition-all"
                 >
                   Contact Us
                 </button>
@@ -149,58 +185,59 @@ function App() {
             </div>
           </div>
 
-          <div className="py-20 bg-white">
+          {/* Comparison Section - Mobile Optimized */}
+          <div className="py-12 sm:py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-16 text-gray-800">
                 Hotel vs. Our Extended Stay Rentals
               </h2>
-              <div className="grid md:grid-cols-2 gap-12">
-                <div className="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-3xl border-l-4 border-red-500">
-                  <h3 className="text-2xl font-bold mb-6 text-red-700">Extended Stay Hotels</h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12">
+                <div className="bg-gradient-to-br from-red-50 to-red-100 p-6 sm:p-8 rounded-3xl border-l-4 border-red-500">
+                  <h3 className="text-xl sm:text-2xl font-bold mb-6 text-red-700">Extended Stay Hotels</h3>
                   <ul className="space-y-4">
-                    <li className="flex items-center text-gray-700">
-                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <X className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-3 flex-shrink-0" />
                       $150-200+ per night
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <X className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-3 flex-shrink-0" />
                       Small, cramped rooms
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <X className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-3 flex-shrink-0" />
                       Basic kitchenette
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <X className="w-5 h-5 text-red-500 mr-3 flex-shrink-0" />
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <X className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-3 flex-shrink-0" />
                       No real home comfort
                     </li>
                   </ul>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-3xl border-l-4 border-green-500">
-                  <h3 className="text-2xl font-bold mb-6 text-green-700">Our Luxury Rentals</h3>
+                <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-3xl border-l-4 border-green-500">
+                  <h3 className="text-xl sm:text-2xl font-bold mb-6 text-green-700">Our Luxury Rentals</h3>
                   <ul className="space-y-4">
-                    <li className="flex items-center text-gray-700">
-                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                       </div>
                       $400-800 per week
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                       </div>
                       Spacious 2-bedroom homes
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                       </div>
                       Full gourmet kitchen
                     </li>
-                    <li className="flex items-center text-gray-700">
-                      <div className="w-5 h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <li className="flex items-center text-gray-700 text-sm sm:text-base">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-green-500 rounded-full mr-3 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full"></div>
                       </div>
                       True home away from home
                     </li>
@@ -210,45 +247,47 @@ function App() {
             </div>
           </div>
 
-          <div className="py-20 bg-gray-50">
+          {/* Features Section - Mobile Optimized */}
+          <div className="py-12 sm:py-20 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-16 text-gray-800">
                 What You Get With Our Rentals
               </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="text-4xl mb-4">🏠</div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">2 Full Bedrooms</h3>
-                  <p className="text-gray-600">Spacious bedrooms with comfortable beds and plenty of storage space</p>
+                  <div className="text-3xl sm:text-4xl mb-4">🏠</div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-gray-800">2 Full Bedrooms</h3>
+                  <p className="text-sm sm:text-base text-gray-600">Spacious bedrooms with comfortable beds and plenty of storage space</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="text-4xl mb-4">👨‍🍳</div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Full Kitchen</h3>
-                  <p className="text-gray-600">Complete kitchen with all appliances, cookware, and dining essentials</p>
+                  <div className="text-3xl sm:text-4xl mb-4">👨‍🍳</div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-gray-800">Full Kitchen</h3>
+                  <p className="text-sm sm:text-base text-gray-600">Complete kitchen with all appliances, cookware, and dining essentials</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="text-4xl mb-4">🛁</div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Designer Bathrooms</h3>
-                  <p className="text-gray-600">Beautiful, modern bathrooms with premium fixtures and amenities</p>
+                  <div className="text-3xl sm:text-4xl mb-4">🛁</div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-gray-800">Designer Bathrooms</h3>
+                  <p className="text-sm sm:text-base text-gray-600">Beautiful, modern bathrooms with premium fixtures and amenities</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl text-center shadow-lg hover:shadow-xl transition-shadow">
-                  <div className="text-4xl mb-4">💰</div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">Save Money</h3>
-                  <p className="text-gray-600">Up to 60% savings compared to extended stay hotels</p>
+                  <div className="text-3xl sm:text-4xl mb-4">💰</div>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-gray-800">Save Money</h3>
+                  <p className="text-sm sm:text-base text-gray-600">Up to 60% savings compared to extended stay hotels</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
+          {/* Pricing Section - Mobile Optimized */}
+          <div className="py-12 sm:py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
             <div className="max-w-4xl mx-auto px-4 text-center">
-              <h2 className="text-4xl font-bold mb-8">Unbeatable Weekly Rates</h2>
-              <div className="text-6xl font-bold mb-4">$400 - $800</div>
-              <p className="text-xl mb-8 opacity-90">Per Week • Based on Property & Finishes</p>
-              <p className="text-lg opacity-80">Perfect for business travelers, relocations, temporary housing, and extended vacations</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8">Unbeatable Weekly Rates</h2>
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">$400 - $800</div>
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90">Per Week • Based on Property & Finishes</p>
+              <p className="text-base sm:text-lg opacity-80 mb-6 sm:mb-8">Perfect for business travelers, relocations, temporary housing, and extended vacations</p>
               <button 
                 onClick={() => setCurrentPage('gallery')}
-                className="mt-8 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-all transform hover:scale-105"
+                className="bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-100 transition-all transform hover:scale-105"
               >
                 View Available Properties
               </button>
@@ -258,10 +297,10 @@ function App() {
       )}
 
       {currentPage === 'gallery' && (
-        <div className="py-8">
+        <div className="py-6 sm:py-8">
           <div className="max-w-7xl mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-8">Available Properties</h1>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Available Properties</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {properties.map(property => (
                 <PropertyCard key={property.id} property={property} />
               ))}
@@ -271,31 +310,31 @@ function App() {
       )}
 
       {currentPage === 'contact' && (
-        <div className="py-16">
+        <div className="py-8 sm:py-16">
           <div className="max-w-4xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold mb-4">Ready to Experience Real Comfort?</h1>
-              <p className="text-xl text-gray-600">Contact LaredoStays today to book your extended stay</p>
+            <div className="text-center mb-8 sm:mb-12">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Ready to Experience Real Comfort?</h1>
+              <p className="text-lg sm:text-xl text-gray-600">Contact LaredoStays today to book your extended stay</p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="bg-white p-8 rounded-2xl shadow-lg">
-                <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+              <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-6">Get in Touch</h2>
                 <div className="space-y-6">
                   <div className="flex items-center">
-                    <Phone className="w-6 h-6 text-blue-600 mr-4" />
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mr-4 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold">Call or Text</div>
-                      <a href="tel:+19292686011" className="text-blue-600 text-xl font-bold hover:text-blue-800">
+                      <div className="font-semibold text-sm sm:text-base">Call or Text</div>
+                      <a href="tel:+19292686011" className="text-blue-600 text-lg sm:text-xl font-bold hover:text-blue-800 break-all">
                         +1 (929) 268-6011
                       </a>
                     </div>
                   </div>
                   <div className="flex items-center">
-                    <Mail className="w-6 h-6 text-blue-600 mr-4" />
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mr-4 flex-shrink-0" />
                     <div>
-                      <div className="font-semibold">Email</div>
-                      <a href="mailto:bebaza.america@gmail.com" className="text-gray-600 hover:text-blue-600">
+                      <div className="font-semibold text-sm sm:text-base">Email</div>
+                      <a href="mailto:bebaza.america@gmail.com" className="text-gray-600 hover:text-blue-600 text-sm sm:text-base break-all">
                         bebaza.america@gmail.com
                       </a>
                     </div>
@@ -303,27 +342,27 @@ function App() {
                 </div>
               </div>
 
-              <div className="bg-white p-8 rounded-2xl shadow-lg">
-                <h2 className="text-2xl font-semibold mb-6">Quick Contact</h2>
+              <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-6">Quick Contact</h2>
                 <div className="space-y-4">
                   <input 
                     type="text" 
                     placeholder="Your Name"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   <input 
                     type="email" 
                     placeholder="Your Email"
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   <textarea 
                     placeholder="Tell us about your needs"
                     rows={4}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
                   <button 
                     type="button"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all"
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all text-sm sm:text-base"
                     onClick={() => window.open('mailto:bebaza.america@gmail.com?subject=LaredoStays Inquiry')}
                   >
                     Send Message

@@ -154,7 +154,7 @@ export const properties = [
     description: "Welcome to Casita Canela—a warm and stylish two-bedroom with rich terracotta tones, mid-century West Elm furniture, and a dedicated office room. Perfect for creatives and professionals, it features 2 queen size beds, a full kitchen, and a dedicated standing desk with natural light and a modern setup.Enjoy the cozy living room, high-speed Wi-Fi, and calm neighborhood setting. A chic casita built for both rest and productivity. Complimentary EV Charging on premise.",
     featured: true,
     tier: "standard",
-    weeklyRate: 550,
+    weeklyRate: 525,
     highlights: ["North Laredo", "1 from Target, HEB, Starbucks", "I-35 Access"]
   },
   {

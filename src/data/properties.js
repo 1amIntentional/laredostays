@@ -151,12 +151,48 @@ export const properties = [
       "Fully equipped kitchen",
       "Smart TV"
     ],
-    description: "Experience our modern home instead of a limited hotel room. This property features a full kitchen, dining area, and cozy couch. Conveniently located, just 3 minutes from I-35 and 5 minutes from Highway 59. Perfect for a centrally placed and comfortable stay! Parking on premise available first come, first serve. Free street parking available.",
+    description: "Welcome to Casita Canela—a warm and stylish two-bedroom with rich terracotta tones, mid-century West Elm furniture, and a dedicated office room. Perfect for creatives and professionals, it features 2 queen size beds, a full kitchen, and a dedicated standing desk with natural light and a modern setup.Enjoy the cozy living room, high-speed Wi-Fi, and calm neighborhood setting. A chic casita built for both rest and productivity. Complimentary EV Charging on premise.",
+    featured: true,
+    tier: "standard",
+    weeklyRate: 550,
+    highlights: ["North Laredo", "1 from Target, HEB, Starbucks", "I-35 Access"]
+  },
+  {
+    id: 6,
+    title: "Casita Canela",
+    location: "North Laredo",
+    price: { min: 500, max: 625 },
+    bedrooms: 2,
+    bathrooms: 1.5,
+    beds: 2,
+    occupancy: 4,
+    sqft: 800, // estimated
+    images: [
+      "https://i.imgur.com/cZB0zWx.jpeg",
+      "https://i.imgur.com/iCLGRki.jpeg",
+      "https://i.imgur.com/KWFVuI3.jpeg",
+      "https://i.imgur.com/sLoF85W.jpeg",
+      "https://i.imgur.com/5h5RtaY.jpeg",
+      "https://i.imgur.com/RdP2NHo.jpeg",
+      "https://i.imgur.com/OZs9U0Q.jpeg",
+      "https://i.imgur.com/AZpE8Zg.jpeg",
+      "https://i.imgur.com/QQmIy2N.jpeg",
+      "https://i.imgur.com/9a4G8ZG.jpeg",
+      "https://i.imgur.com/a8w2D8L.jpeg",
+    ],
+    amenities: [
+      "On-premise parking",
+      "EV Charger available",
+      "Fully equipped kitchen",
+      "Smart TV",
+      "High Speed WiFi",
+    ],
+    description: "Eerience our modern home instead of a limited hotel room. This property features a full kitchen, dining area, and cozy couch. Conveniently located, just 3 minutes from I-35 and 5 minutes from Highway 59. Perfect for a centrally placed and comfortable stay! Parking on premise available first come, first serve. Free street parking available.",
     featured: false,
     tier: "standard",
     weeklyRate: 550,
     highlights: ["New Build", "Central Location", "I-35 Access"]
-  },
+  }
   // Add more properties here as we collect them
 ];
 

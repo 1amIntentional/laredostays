@@ -6,12 +6,12 @@ export const properties = [
     id: 1,
     title: "Casita Luna",
     location: "North Laredo",
-    price: { min: 650, max: 750 },
+    price: { min: 650, max: 700 },
     bedrooms: 2,
     bathrooms: 1,
     beds: 2,
     occupancy: 4,
-    sqft: 950, // estimated
+    sqft: 800, // estimated
     images: [
       "https://i.imgur.com/Md9j1y5.jpeg", 
       "https://i.imgur.com/DDYjqFa.jpeg",
@@ -29,14 +29,14 @@ export const properties = [
     description: "Escape to Casita Luna—a chic retreat featuring a luxurious bathroom, fully equipped kitchen, and cozy living space with modern decor. Relax on plush bedding, enjoy community grills under a shaded palapa, and feel secure with gated access. Just steps from major shopping like Target and Sephora. Perfect for a comfortable stay in a prime location.",
     featured: true,
     tier: "premium",
-    weeklyRate: 750,
+    weeklyRate: 700,
     highlights: ["Gated Community", "Luxury Finishes", "Prime Location"]
   },
   {
     id: 2,
     title: "Casita Luz",
     location: "North Laredo",
-    price: { min: 625, max: 700 },
+    price: { min: 600, max: 650 },
     bedrooms: 2,
     bathrooms: 1,
     beds: 2,
@@ -60,7 +60,7 @@ export const properties = [
     description: "Welcome to Casa Luz—your golden-hour escape just steps from HEB, Target, Starbucks, and more. This light-filled retreat blends warm terracotta floors, soft textures, and glowing gold finishes for a calming, elegant stay. Sip coffee at the cozy dining nook, enjoy a rain-style shower, or stream your favorite shows on the smart TV. Ideal for a peaceful getaway, work trip, or girls' weekend. Wi-Fi, full kitchen, and serene vibes included.",
     featured: false,
     tier: "premium",
-    weeklyRate: 700,
+    weeklyRate: 650,
     highlights: ["Golden Hour Vibes", "Rain Shower", "Shopping Nearby"]
   },
   {
@@ -92,7 +92,7 @@ export const properties = [
     description: "Welcome to Cactus Casa—your cozy, sunlit escape just minutes from Target, Sephora, HEB, Starbucks, and more. This thoughtfully designed stay blends warmth and style with green accents, a glowing bathroom, and comfy touches throughout. Enjoy coffee in the bright dining nook, stream shows on the smart TV, or unwind in the fenced yard under a leafy tree. Whether you're here for shopping, work, or self-care, Casita Cactus is your stylish home base.",
     featured: true,
     tier: "premium",
-    weeklyRate: 700,
+    weeklyRate: 675,
     highlights: ["Sunlit Design", "Fenced Yard", "Green Accents"]
   },
   {

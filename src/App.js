@@ -8,6 +8,49 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [formStatus, setFormStatus] = useState({
+    submitting: false,
+    submitted: false,
+    error: null
+  });
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setFormStatus({ submitting: true, submitted: false, error: null });
+    
+    try {
+      const response = await fetch("https://formspree.io/f/mwpkjvqn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setFormStatus({ submitting: false, submitted: true, error: null });
+        setFormData({ name: '', email: '', message: '' });
+        
+        // Auto-hide success message after 5 seconds
+        setTimeout(() => {
+          setFormStatus({ submitting: false, submitted: false, error: null });
+        }, 5000);
+      } else {
+        throw new Error('Failed to submit form');
+      }
+    } catch (error) {
+      setFormStatus({ 
+        submitting: false, 
+        submitted: false, 
+        error: 'Failed to send message. Please call us at (929) 268-6011' 
+      });
+    }
+  };
 
   const PropertyCard = ({ property }) => (
     <div 
@@ -417,29 +460,66 @@ function App() {
 
               <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg">
                 <h2 className="text-xl sm:text-2xl font-semibold mb-6">Quick Contact</h2>
-                <div className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                   <input 
                     type="text" 
                     placeholder="Your Name"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    disabled={formStatus.submitting}
                   />
                   <input 
                     type="email" 
                     placeholder="Your Email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    disabled={formStatus.submitting}
                   />
                   <textarea 
-                    placeholder="Tell us about your needs"
+                    placeholder="Tell us about your needs (dates, length of stay, etc.)"
                     rows={4}
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    disabled={formStatus.submitting}
                   />
                   <button 
-                    type="button"
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all text-sm sm:text-base"
-                    onClick={() => window.open('mailto:bebaza.america@gmail.com?subject=LaredoStays Inquiry')}
+                    type="submit"
+                    disabled={formStatus.submitting}
+                    className={`w-full py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+                      formStatus.submitting 
+                        ? 'bg-gray-400 cursor-not-allowed text-gray-200' 
+                        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700'
+                    }`}
                   >
-                    Send Message
+                    {formStatus.submitting ? 'Sending...' : 'Send Message'}
                   </button>
+                  
+                  {formStatus.submitted && (
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                      <span className="block sm:inline">✓ Message sent successfully! We'll respond within 24 hours.</span>
+                    </div>
+                  )}
+                  
+                  {formStatus.error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                      <span className="block sm:inline">{formStatus.error}</span>
+                    </div>
+                  )}
+                </form>
+                
+                <div className="mt-4 text-center">
+                  <a 
+                    href="sms:+19292686011?body=Hi, I'm interested in LaredoStays properties."
+                    className="text-blue-600 hover:underline text-sm"
+                  >
+                    Or text us at (929) 268-6011
+                  </a>
                 </div>
               </div>
             </div>

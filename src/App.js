@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Bed, Bath, X, Menu, Users } from 'lucide-react';
 import { properties } from './data/properties';
 import PropertyDetail from './components/PropertyDetail';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -445,6 +446,7 @@ function App() {
           </div>
         </div>
       )}
+      <Analytics />
     </div>
   );
 }

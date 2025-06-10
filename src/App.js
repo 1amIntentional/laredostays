@@ -24,7 +24,7 @@ function App() {
     setFormStatus({ submitting: true, submitted: false, error: null });
     
     try {
-      const response = await fetch("https://formspree.io/f/mwpkjvqn", {
+      const response = await fetch("https://formspree.io/f/xrbkpwey", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

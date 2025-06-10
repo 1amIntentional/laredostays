@@ -80,7 +80,7 @@ describe('Contact Form', () => {
     
     // Verify fetch was called with correct data
     expect(fetch).toHaveBeenCalledWith(
-      'https://formspree.io/f/mwpkjvqn',
+      'https://formspree.io/f/xrbkpwey',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

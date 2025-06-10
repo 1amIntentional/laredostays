@@ -14,7 +14,7 @@ The contact form on LaredoStays is now fully functional using Formspree. Here's 
 7. **Disabled State** - Prevents multiple submissions
 
 ### Form Configuration:
-- **Formspree Endpoint**: `https://formspree.io/f/mwpkjvqn`
+- **Formspree Endpoint**: `https://formspree.io/f/xrbkpwey`
 - **Email Delivery**: Forms will be sent to the email associated with this Formspree form
 - **Free Tier**: 50 submissions per month
 
@@ -23,7 +23,7 @@ The contact form on LaredoStays is now fully functional using Formspree. Here's 
 1. **Set up Formspree Account** (if not already done):
    - Go to https://formspree.io
    - Sign up/login with the email where you want to receive submissions
-   - The form ID `mwpkjvqn` should be linked to your account
+   - The form ID `xrbkpwey` should be linked to your account
 
 2. **Configure Email Settings in Formspree**:
    - Set the recipient email to `bebaza.america@gmail.com`

@@ -48,7 +48,7 @@ The contact form on LaredoStays is now fully functional using Formspree. Here's 
 - Message (required)
 
 ### Success/Error Messages:
-- **Success**: "✓ Message sent successfully! We'll respond within 24 hours."
+- **Success**: "✓ Message sent successfully! We'll get back to you shortly. If in a hurry, please text/call."
 - **Error**: "Failed to send message. Please call us at (929) 268-6011"
 
 ### Upgrade Options:

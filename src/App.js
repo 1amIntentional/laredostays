@@ -502,7 +502,7 @@ function App() {
                   
                   {formStatus.submitted && (
                     <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-                      <span className="block sm:inline">✓ Message sent successfully! We'll respond within 24 hours.</span>
+                      <span className="block sm:inline">✓ Message sent successfully! We'll get back to you shortly. If in a hurry, please text/call.</span>
                     </div>
                   )}
                   
